@@ -1,74 +1,75 @@
 package org.example.take_away_drink.model;
 
+import org.jdbi.v3.core.mapper.reflect.ColumnName;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Product {
-    private String maSanPham;
-    private String tenSanPham;
-    private long giaBan;
-    private String dungTich;
-    private Type loaiSapPham;
-    private String moTa;
+    private String idproduct;
+    private Type type;
+    private String name;
+    private Size size;
+    private int price;
+    private String describe;
     private String srcIMG;
+    private List<Topping> toppings = new ArrayList<>();
 
-    public Product() {
-        // TODO Auto-generated constructor stub
-    }
-
-    public Product(String maSanPham, String tenSanPham, long giaBan, String dungTich, Type loaiSapPham, String moTa, String srcIMG) {
-        this.maSanPham = maSanPham;
-        this.tenSanPham = tenSanPham;
-        this.giaBan = giaBan;
-        this.dungTich = dungTich;
-        this.loaiSapPham = loaiSapPham;
-        this.moTa = moTa;
+    public Product(String idproduct, Type type, String name, int price, String describe, String srcIMG){
+        this.idproduct = idproduct;
+        this.type = type;
+        this.name = name;
+        this.price = price;
+        this.describe = describe;
         this.srcIMG = srcIMG;
+
+    }
+    public Product(){
+
+    }
+    @ColumnName("idproduct")
+    public String getIdproduct() {
+        return idproduct;
     }
 
-    public String getMaSanPham() {
-        return maSanPham;
+    public void setIdproduct(String idproduct) {
+        this.idproduct = idproduct;
+    }
+    public String getDescribe() {
+        return describe;
     }
 
-    public void setMaSanPham(String maSanPham) {
-        this.maSanPham = maSanPham;
+    public void setDescribe(String describe) {
+        this.describe = describe;
     }
 
-    public String getTenSanPham() {
-        return tenSanPham;
+
+
+    public String getNameType(){
+        return type.getNametype();
+    }
+    public String getName() {
+        return name;
     }
 
-    public void setTenSanPham(String tenSanPham) {
-        this.tenSanPham = tenSanPham;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public long getGiaBan() {
-        return giaBan;
+    public int getPrice() {
+        return price;
     }
 
-    public void setGiaBan(long giaBan) {
-        this.giaBan = giaBan;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
-    public String getDungTich() {
-        return dungTich;
+    public Size getSize() {
+        return size;
     }
 
-    public void setDungTich(String dungTich) {
-        this.dungTich = dungTich;
-    }
-
-    public Type getLoaiSapPham() {
-        return loaiSapPham;
-    }
-
-    public void setLoaiSapPham(Type loaiSapPham) {
-        this.loaiSapPham = loaiSapPham;
-    }
-
-    public String getMoTa() {
-        return moTa;
-    }
-
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
+    public void setSize(Size size) {
+        this.size = size;
     }
 
     public String getSrcIMG() {
@@ -79,16 +80,33 @@ public class Product {
         this.srcIMG = srcIMG;
     }
 
+    public List<Topping> getToppings() {
+        return toppings;
+    }
+
+    public void setToppings(List<Topping> toppings) {
+        this.toppings = toppings;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
-                "maSanPham='" + maSanPham + '\'' +
-                ", tenSanPham='" + tenSanPham + '\'' +
-                ", giaBan=" + giaBan +
-                ", dungTich='" + dungTich + '\'' +
-                ", loaiSapPham=" + loaiSapPham +
-                ", moTa='" + moTa + '\'' +
+                "describe='" + describe + '\'' +
+                ", idproduct='" + idproduct + '\'' +
+                ", type=" + type +
+                ", name='" + name + '\'' +
+                ", size=" + size +
+                ", price=" + price +
                 ", srcIMG='" + srcIMG + '\'' +
+                ", toppings=" + toppings +
                 '}';
     }
 }

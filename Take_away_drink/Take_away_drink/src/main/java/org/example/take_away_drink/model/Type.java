@@ -1,37 +1,39 @@
 package org.example.take_away_drink.model;
 
 public class Type {
-    private String idType;
-    private String nameType;
-    public Type() {
+
+    private String idtype;
+    private String nametype;
+
+    public Type(String idtype, String nametype) {
+        this.idtype = idtype;
+        this.nametype = nametype;
+    }
+    public Type(){
+
     }
 
-    public Type(String idType, String nameType) {
-        this.idType = idType;
-        this.nameType = nameType;
+    public String getNametype() {
+        return nametype;
     }
 
-    public String getIdType() {
-        return idType;
+    public void setNametype(String nametype) {
+        this.nametype = nametype;
     }
 
-    public void setIdType(String idType) {
-        this.idType = idType;
+    public String getIdtype() {
+        return idtype;
     }
 
-    public String getNameType() {
-        return nameType;
-    }
-
-    public void setNameType(String nameType) {
-        this.nameType = nameType;
+    public void setIdtype(String idtype) {
+        this.idtype = idtype;
     }
 
     @Override
     public String toString() {
         return "Type{" +
-                "idType='" + idType + '\'' +
-                ", nameType='" + nameType + '\'' +
+                "idtype='" + idtype + '\'' +
+                ", nametype='" + nametype + '\'' +
                 '}';
     }
 }
