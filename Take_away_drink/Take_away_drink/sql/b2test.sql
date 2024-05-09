@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 09, 2024 lúc 05:04 PM
--- Phiên bản máy phục vụ: 10.4.27-MariaDB
--- Phiên bản PHP: 8.2.0
+-- Thời gian đã tạo: Th5 09, 2024 lúc 05:50 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -37,11 +37,16 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`idcart`, `iduser`) VALUES
-('cart2', 'easylove');
+('cart4', 'admin1'),
+('cart6', 'admin1');
 
 --
 -- Bẫy `cart`
 --
+DELIMITER $$
+CREATE TRIGGER `trg_cart` BEFORE INSERT ON `cart` FOR EACH ROW SET NEW.idcart = CONCAT('cart', CAST(NEXT VALUE FOR seq_cart AS CHAR))
+$$
+DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `trigger_cart` BEFORE INSERT ON `cart` FOR EACH ROW set new.idcart = CONCAT('cart', CAST(next value for seq_cart as CHAR))
 $$
@@ -116,7 +121,27 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`idproduct`, `idtype`, `name`, `price`, `describe`, `srcIMG`) VALUES
-('product1', 'type1', 'Ô lông sữa trân châu ngũ cốc', 15000, 'Trà sữa khói thanh nhiệt thơm béo, topping trân châu ngũ cốc dẻo bùi được làm từ khoai lang Đà Lạt', 'OLongSuaTranChauNguCoc.img');
+('product10', 'type1', 'Trà Sữa Phô Mai Tươi', 30000, 'Hồng tra đậm đà hoà cùng sữa béo béo, kết hợp pudding phô mai tươi thơm thơm, vừa dẻo lại vừa mịn kích thích vị giác', 'TraSuaPhoMaiTuoi'),
+('product11', 'type1', 'Trà Sữa Ô Long', 24000, 'Trà ô long đậm vị kết hợp với sữa thơm béo, độ ngọt vừa phải', 'TraSuaOLong'),
+('product12', 'type1', 'Trà sữa dâu tây', 15000, 'Hương vị chua ngọt hài hòa đặc trưng của Dâu tây và trà thanh mát', 'TraSuaDauTay'),
+('product13', 'type2', 'Cà phê sữa', 8000, 'Sự hòa quyện giữa cà phê đậm vị robusta xen lẫn vào đó là vị ngọt béo của sữa đặc và dậy lên một mùi hương quyến rũ', 'CaPheSua'),
+('product14', 'type2', 'Jelly coffee', 12000, 'Sự hòa quyện giữa cà phê robusta đậm vị cùng sữa béo thơm, vị ngọt nhẹ nhàng từ topping thạch cà phê giòn ngọt', 'JellyCoffe'),
+('product15', 'type1', 'Ô Long Sữa Trân Châu Ngũ Cốc', 15000, 'Trà sữa ô long khói thanh nhiệt thơm béo, topping trân châu ngũ cốc dẻo bùi được làm từ khoai lang Đà Lạt. Sản phẩm có thể uống nóng hoặc lạnh', 'OLongSuaTranChauNguCoc'),
+('product16', 'type1', 'Sữa Tươi Trân Châu Đường Hổ', 15000, 'Sữa tươi nguyên kem thơm béo, có sẵn topping Trân Châu Hoàng Kim dẻo dai mang lại trải nghiệm thú vị hấp dẫn', 'SuaTuoiTranChauDuongHoKhongLo'),
+('product17', 'type1', 'Trà sữa', 13000, 'Hương thơm nồng nhẹ của lá chè đen kết hợp với vị sữa béo ngậy, hậu vị ngọt mang đến trải nghiệm thú vị', 'TraSua'),
+('product18', 'type1', 'Tiger sugar', 15000, 'Sữa tươi nguyên kem thơm béo, có sẵn topping trân châu hoàng kim dẻo dai mang lại trải nghiệm thú vị hấp dẫn', 'TigerSugar'),
+('product19', 'type3', 'Trà Chanh Mật Ong Giã Tay', 15000, 'Vị chua nhẹ từ chanh vàng được giã bằng tay kết hợp với trà xanh lài cùng mật ong tự nhiên ngọt thanh. Có sẵn topping thạch băng tuyết. Sản phẩm có thể uống nóng hoặc lạnh.', 'TraChanhMatOngGiaTay'),
+('product20', 'type3', 'Trà dâu tằm pha lê tuyết', 28000, 'Mứt dâu tằm chua chua ngọt ngọt hoà cùng vị trà chát nhẹ, kết hợp với topping thạch băng tuyết tạo nên thức uống giải khát tuyệt vời', 'TraDauTamPhaLeTuyet'),
+('product8', 'type2', 'Cà phê đen đá', 8000, 'Được làm từ cà phê robusta, đậm vị và hương thơm nồng nàn quyến rũ', 'CaPheDenDa'),
+('product9', 'type3', 'Trà Dứa Thạch', 30000, 'Hương vị đậm đà, chua ngọt hài hòa đặc trưng của mứt dứa kết hợp với vị trà xanh nhài thanh mát, topping thạch konjac giòn ngọt vui miệng', 'TraDuaThach');
+
+--
+-- Bẫy `product`
+--
+DELIMITER $$
+CREATE TRIGGER `trg_product` BEFORE INSERT ON `product` FOR EACH ROW SET NEW.idproduct = CONCAT('product', CAST(NEXT VALUE FOR seq_product AS CHAR))
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -157,7 +182,7 @@ CREATE TABLE `seq_cart2` (
   `cache_size` bigint(21) UNSIGNED NOT NULL,
   `cycle_option` tinyint(1) UNSIGNED NOT NULL COMMENT '0 if no cycles are allowed, 1 if the sequence should begin a new cycle when maximum_value is passed',
   `cycle_count` bigint(21) NOT NULL COMMENT 'How many cycles have been done'
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `seq_cart2`
@@ -181,13 +206,37 @@ CREATE TABLE `seq_log` (
   `cache_size` bigint(21) UNSIGNED NOT NULL,
   `cycle_option` tinyint(1) UNSIGNED NOT NULL COMMENT '0 if no cycles are allowed, 1 if the sequence should begin a new cycle when maximum_value is passed',
   `cycle_count` bigint(21) NOT NULL COMMENT 'How many cycles have been done'
-) ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `seq_log`
 --
 
 INSERT INTO `seq_log` (`next_not_cached_value`, `minimum_value`, `maximum_value`, `start_value`, `increment`, `cache_size`, `cycle_option`, `cycle_count`) VALUES
+(1001, 1, 9223372036854775806, 1, 1, 1000, 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `seq_product`
+--
+
+CREATE TABLE `seq_product` (
+  `next_not_cached_value` bigint(21) NOT NULL,
+  `minimum_value` bigint(21) NOT NULL,
+  `maximum_value` bigint(21) NOT NULL,
+  `start_value` bigint(21) NOT NULL COMMENT 'start value when sequences is created or value if RESTART is used',
+  `increment` bigint(21) NOT NULL COMMENT 'increment value',
+  `cache_size` bigint(21) UNSIGNED NOT NULL,
+  `cycle_option` tinyint(1) UNSIGNED NOT NULL COMMENT '0 if no cycles are allowed, 1 if the sequence should begin a new cycle when maximum_value is passed',
+  `cycle_count` bigint(21) NOT NULL COMMENT 'How many cycles have been done'
+) ENGINE=InnoDB;
+
+--
+-- Đang đổ dữ liệu cho bảng `seq_product`
+--
+
+INSERT INTO `seq_product` (`next_not_cached_value`, `minimum_value`, `maximum_value`, `start_value`, `increment`, `cache_size`, `cycle_option`, `cycle_count`) VALUES
 (1001, 1, 9223372036854775806, 1, 1, 1000, 0, 0);
 
 -- --------------------------------------------------------
@@ -245,7 +294,9 @@ CREATE TABLE `type` (
 --
 
 INSERT INTO `type` (`idtype`, `nametype`) VALUES
-('type1', 'Milk tea');
+('type1', 'Milk tea'),
+('type2', 'Coffee'),
+('type3', 'Fresh fruit tea');
 
 -- --------------------------------------------------------
 
