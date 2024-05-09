@@ -118,7 +118,7 @@ public class JDBIConnector {
     }
     public static void main(String[] args) throws SQLException {
 //
-    Account user = new Account("admin1","admin","admin");
+    Account user = new Account("admin2","admin","admin");
 
     System.out.println(new JDBIConnector().insert(user));
     }
