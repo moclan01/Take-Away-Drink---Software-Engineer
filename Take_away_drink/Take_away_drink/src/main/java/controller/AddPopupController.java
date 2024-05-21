@@ -43,6 +43,11 @@ public class AddPopupController extends HttpServlet {
                     + "<div class=\"price-product\">"+product.getPrice()+"\r\n"
                     +"</div>"
                     + "<div class=\"describe-product\">"+product.getDescribe()+"\r\n"
+                    +"<div class=\"quantity-product\">"
+                    +"<button onclick=\"decreasement()\"> </button>"
+                    +"<div class=\"detail-quantity\">1</div>"
+                    +"<button onclick=\"increasement()\"></button>"
+                    +"</div>"
                     +"</div>"
                     +"</div>"
                     +"</div>"
@@ -68,22 +73,23 @@ public class AddPopupController extends HttpServlet {
                             +"<div class=\"title\">Chọn topping </div>\r\n"
                             +"<div class=\"topping-body\">\r\n");
 
-          //  out.println(  "<form id = \"myForm\">");
-//            for (Topping topping : toppings) {
-//                out.println(
-//                       " <input type=\"checkbox\" id=\""+topping.getIdtopping()+"\" name=\"topping\" value=\""+topping.getIdtopping()+"\" >"
-//                                +"<label class=\"topping\" for=\""+topping.getIdtopping()+"\">"+topping.getNametopping()+"</label>" +
-//                               "<label class=\"topping\" for=\""+topping.getIdtopping()+"\">+"+topping.getPricetopping()+" đ</label>"+
-//                               "<br>\n"
-//
-//
-//                );
-//            }
+            out.println(  "<form id = \"myForm\">");
+            for (Topping topping : toppings) {
+                out.println(
+                       " <input type=\"checkbox\" id=\""+topping.getIdtopping()+"\" name=\"topping\" value=\""+topping.getIdtopping()+"\" " +
+                               "onchange=\"updateValue('" + product.getIdproduct()+ "')\">"
+                                +"<label class=\"topping\" for=\""+topping.getIdtopping()+"\">"+topping.getNametopping()+"</label>" +
+                               "<label class=\"topping\" for=\""+topping.getIdtopping()+"\">+"+topping.getPricetopping()+" đ</label>"+
+                               "<br>\n"
+
+
+                );
+            }
 
             out.print(
-//                    "</form>"+
-//                            "<button onclick=\"updateValue2()\"></button>\n"+
-                            "</div>"
+                    "</form>"
+                            +"<button onclick = \"addCartController('" + product.getIdproduct()+ "')\"> </button>"
+                           + "</div>"
                             +"</div>"
                             +"</div>");
 

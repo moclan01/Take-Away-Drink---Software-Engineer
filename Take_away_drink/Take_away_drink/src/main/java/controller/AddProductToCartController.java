@@ -1,14 +1,16 @@
 package controller;
 
+import DB.DAOCartDetail;
 import DB.DAOProduct;
+import DB.DAOSize;
 import DB.DAOTopping;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Product;
-import model.Topping;
+import jakarta.servlet.http.HttpSession;
+import model.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,17 +18,26 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/SetPriceController2")
-
-public class SetPriceController2 extends HttpServlet {
+@WebServlet("/AddProductToCartController")
+public class AddProductToCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAOTopping daoTopping = new DAOTopping();
+        HttpSession session = request.getSession();
         DAOProduct daoProduct = new DAOProduct();
-        String idproduct = request.getParameter("idproduct");
+        DAOSize daoSize = new DAOSize();
+        DAOTopping daoTopping = new DAOTopping();
+        DAOCartDetail daoCartDetail = new DAOCartDetail();
 
+        Account account = (Account) session.getAttribute("user");
+        Cart cart = (Cart) session.getAttribute("cart");
+
+        CartDetail cartDetail = new CartDetail();
+        cartDetail.setCart(cart);
         String[] listTopping = request.getParameterValues("seValue[]");
         List<Topping> toppings = new ArrayList<Topping>();
+
+        String idproduct = request.getParameter("idproduct");
+        String idsize = request.getParameter("idsize");
 
         if(listTopping != null){
             for (String toppingname: listTopping){
@@ -39,26 +50,31 @@ public class SetPriceController2 extends HttpServlet {
                 toppings.add(topping);
 
             }
-
-
         }
         try {
             Product product= daoProduct.getProductByID(idproduct);
+            Size size = daoSize.getSizeByID(idsize);
+
+            product.setSize(size);
             if (toppings.size()>0){
                 for (Topping topping : toppings) {
                     product.setPrice(product.getPrice() + topping.getPricetopping());
 
                 }
             }
-            String price = product.getPrice()+"";
+            product.setPrice(product.getPrice() + size.getPrice());
+            cartDetail.setItem(product);
+            cartDetail.setPrice(product.getPrice());
+            cartDetail.setSize(product.getSize());
+            cartDetail.setQuantity(2);
 
-            PrintWriter out = response.getWriter();
-            out.print(price);
+            daoCartDetail.insert(cartDetail);
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
+
+
     }
-
-
 }

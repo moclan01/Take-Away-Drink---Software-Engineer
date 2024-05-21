@@ -17,6 +17,7 @@ public class SearchController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String str = req.getParameter("genre");
+
         DaoUser daouser = new DaoUser();
         try {
             Account user = daouser.getUserByUsername(str);
