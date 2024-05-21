@@ -1,7 +1,7 @@
-package org.example.take_away_drink.DB;
+package DB;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-import org.example.take_away_drink.model.Account;
+import model.Account;
 import org.jdbi.v3.core.Jdbi;
 
 import java.sql.SQLException;
