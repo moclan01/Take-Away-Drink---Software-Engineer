@@ -1,11 +1,12 @@
-package org.example.take_away_drink.model;
+package model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Product {
+public class Product implements Serializable {
     private String idproduct;
     private Type type;
     private String name;
@@ -13,9 +14,10 @@ public class Product {
     private int price;
     private String describe;
     private String srcIMG;
+    private String idtype;
     private List<Topping> toppings = new ArrayList<>();
 
-    public Product(String idproduct, Type type, String name, int price, String describe, String srcIMG){
+    public Product(String idproduct,Type type,String name, int price, String describe, String srcIMG){
         this.idproduct = idproduct;
         this.type = type;
         this.name = name;
@@ -27,74 +29,85 @@ public class Product {
     public Product(){
 
     }
-    @ColumnName("idproduct")
-    public String getIdproduct() {
-        return idproduct;
-    }
 
-    public void setIdproduct(String idproduct) {
-        this.idproduct = idproduct;
-    }
     public String getDescribe() {
         return describe;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public String getIdproduct() {
+        return idproduct;
     }
 
-
-
-    public String getNameType(){
-        return type.getNametype();
-    }
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
     public Size getSize() {
         return size;
-    }
-
-    public void setSize(Size size) {
-        this.size = size;
     }
 
     public String getSrcIMG() {
         return srcIMG;
     }
 
-    public void setSrcIMG(String srcIMG) {
-        this.srcIMG = srcIMG;
-    }
-
     public List<Topping> getToppings() {
         return toppings;
-    }
-
-    public void setToppings(List<Topping> toppings) {
-        this.toppings = toppings;
     }
 
     public Type getType() {
         return type;
     }
 
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public void setIdproduct(String idproduct) {
+        this.idproduct = idproduct;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public void setSize(Size size) {
+        this.size = size;
+    }
+
+    public void setSrcIMG(String srcIMG) {
+        this.srcIMG = srcIMG;
+    }
+
+    public void setToppings(List<Topping> toppings) {
+        this.toppings = toppings;
+    }
+
     public void setType(Type type) {
         this.type = type;
     }
+
+    public String getNameType(){
+        return type.getNametype();
+    }
+    public String getidtype(){
+        return type.getidtype();
+    }
+
+    public String getIdtype() {
+        return idtype;
+    }
+
+    public void setIdtype(String idtype) {
+        this.idtype = idtype;
+    }
+
 
     @Override
     public String toString() {

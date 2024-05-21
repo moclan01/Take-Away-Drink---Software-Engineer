@@ -1,4 +1,4 @@
-package org.example.take_away_drink.model;
+package model;
 
 import org.jdbi.v3.core.mapper.reflect.ColumnName;
 
