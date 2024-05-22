@@ -1,20 +1,33 @@
 package model;
 
 public class CartDetailTopping {
-    private String idproduct;
+    private Cart cart;
+    private Product product;
     private Topping topping;
 
-    public CartDetailTopping(String idproduct, Topping topping) {
-        this.idproduct = idproduct;
+    public CartDetailTopping(Cart cart, Product product, Topping topping) {
+        this.cart = cart;
+        this.product = product;
         this.topping = topping;
     }
+    public CartDetailTopping(){
 
-    public String getIdproduct() {
-        return idproduct;
     }
 
-    public void setIdproduct(String idproduct) {
-        this.idproduct = idproduct;
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Topping getTopping() {

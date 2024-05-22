@@ -76,5 +76,7 @@ margin-right: 200px;
 }
 .title{
 	font-weight: bold;
-
+}
+.quantity-product{
+	display: flex;
 }

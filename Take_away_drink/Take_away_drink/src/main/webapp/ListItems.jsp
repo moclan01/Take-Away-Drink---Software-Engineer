@@ -120,14 +120,8 @@
 			<div class="modal-detail"></div>
 			<p id="result"></p>
 
-			<form id="myForm">
-				<c:forEach var="item" items="${topping.selectAll()}">
-					<input type="checkbox" id="${item.getIdtopping()}" name="topping" value="${item.getIdtopping()}">
 
-				</c:forEach>
 
-			</form>
-			<button onclick="updateValue2()"></button>
 		</div>
 	</div>
 
@@ -137,6 +131,8 @@
 <script>
 	var modal = document.getElementById("myModal");
 	 function openPopup(idproduct){
+		 var form = document.getElementById('myForm');
+
 		 $.ajax({
 			 url: "AddPopupController",
 			 type: "get",
@@ -164,19 +160,24 @@
 	 }
 
 	function updateValue(idproduct) {
+		var form = document.getElementById('myForm');
+		var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
+		var selectedValues = [];
+		checkboxes.forEach((checkbox) => {
+			selectedValues.push(checkbox.value);
+		});
 		var selectedSize = document.querySelector('input[name="size"]:checked').value;
 		$.ajax({
 			url: "SetPriceController",
 			type: "get",
 			data: {
 				idproduct: idproduct,
-				idsize: selectedSize
+				idsize: selectedSize,
+				seValue: selectedValues
 
 			},
 			success: function(reponse) {
 				$('.price-product').html(reponse);
-
-
 			},
 			error: function(xhr, status, error) {
 				// Xử lý lỗi (nếu có)
@@ -186,39 +187,55 @@
 
 		document.getElementById("result").innerHTML = "Selected gender: " + selectedSize;
 	}
+	function increasement() {
+		var quantityElement = document.querySelector('.detail-quantity');
+		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+		var result = quantity + 1;
+		var resultStr = result.toString();
 
-	function  updateValue2(){
-		var form = document.getElementById('myForm');
+		$('.detail-quantity').html(resultStr);
+	}
+	function decreasement(){
+		var quantityElement = document.querySelector('.detail-quantity');
+		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+		var result = quantity - 1;
 
-		// Lấy tất cả các checkbox có name là 'option'
-		var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
-
-		var selectedValues = [];
-		checkboxes.forEach((checkbox) => {
-			selectedValues.push(checkbox.value);
-		});
-		$.ajax({
-			url: "SetPriceController2",
-			type: "POST",
-			data: {
-				seValue: selectedValues
-
-			},
-			success: function(reponse) {
-			},
-			error: function(xhr, status, error) {
-				// Xử lý lỗi (nếu có)
-				console.error("Lỗi: " + error);
-			}
-		});
-		console.log('Selected values:', selectedValues);
-
+		if(result < 0){
+			result = 0
+		}
+		$('.detail-quantity').html(result);
 	}
 	function selectDefaultRadioButton() {
 		$('#m').prop('checked', true);
 
 	}
 
+	function addCartController(idproduct){
+		var form = document.getElementById('myForm');
+		var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
+		var selectedValues = [];
+		checkboxes.forEach((checkbox) => {
+			selectedValues.push(checkbox.value);
+		});
+		var selectedSize = document.querySelector('input[name="size"]:checked').value;
+		$.ajax({
+			url: "AddProductToCartController",
+			type: "get",
+			data: {
+				idproduct: idproduct,
+				idsize: selectedSize,
+				seValue: selectedValues
+
+			},
+			success: function(reponse) {
+				console.log("Success")
+			},
+			error: function(xhr, status, error) {
+				// Xử lý lỗi (nếu có)
+				console.error("Lỗi: " + error);
+			}
+		});
+	}
 	function selectDefaultCheckbox() {
 		var defaultCheckbox = document.getElementById('topping1');
 		if (defaultCheckbox) {
