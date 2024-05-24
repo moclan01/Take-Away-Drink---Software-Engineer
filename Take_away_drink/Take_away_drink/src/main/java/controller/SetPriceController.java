@@ -29,15 +29,13 @@ public class SetPriceController extends HttpServlet {
         DAOCartDetail daoCartDetail = new DAOCartDetail();
 
         Account account = (Account) session.getAttribute("user");
-        Cart cart = (Cart) session.getAttribute("cart");
 
-        CartDetail cartDetail = new CartDetail();
-        cartDetail.setCart(cart);
         String[] listTopping = request.getParameterValues("seValue[]");
         List<Topping> toppings = new ArrayList<Topping>();
 
         String idproduct = request.getParameter("idproduct");
         String idsize = request.getParameter("idsize");
+        String quantity = request.getParameter("quantity");
 
         if(listTopping != null){
             for (String toppingname: listTopping){
@@ -55,6 +53,7 @@ public class SetPriceController extends HttpServlet {
             Product product= daoProduct.getProductByID(idproduct);
            Size size = daoSize.getSizeByID(idsize);
 
+           int quantityInt = Integer.parseInt(quantity);
            product.setSize(size);
             if (toppings.size()>0){
                 for (Topping topping : toppings) {
@@ -63,10 +62,9 @@ public class SetPriceController extends HttpServlet {
                 }
             }
             product.setPrice(product.getPrice() + size.getPrice());
-           cartDetail.setItem(product);
-           cartDetail.setPrice(product.getPrice());
-           cartDetail.setSize(product.getSize());
-           cartDetail.setQuantity(2);
+            int priceQuantity = product.getPrice() * quantityInt;
+            product.setPrice(priceQuantity);
+
             String price = product.getPrice()+"";
 
             PrintWriter out = response.getWriter();

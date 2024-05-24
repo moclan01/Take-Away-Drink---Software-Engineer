@@ -79,13 +79,12 @@
                                 <c:set var="maHang" value="${item.getidtype()}"/>
                                 <c:if test="${maHang eq mahangParam}">
                                     <li class="item-li">
-                                        <div class="card" style="width: 17rem;">
-                                            <div class="card-body">
-                                                <a href="Items?idItem=${item.idproduct}"><img class="card-img-top"
-                                                                                              src="images/product/${item.srcIMG}"
-                                                                                              alt=""></a>
-                                                <a class="card-title" href="Items?idItem=${item.idproduct}"
-                                                   id="card-title">${item.name}</a>
+                                        <div  class="card" style="width: 17rem;">
+                                            <div id="${item.idproduct}" class="card-body"  onclick="openPopup(this.id)">
+                                               <img class="card-img-top"  src="images/product/${item.srcIMG}"
+                                                                                              alt="">
+                                                <div class="card-title"
+                                                   id="card-title">${item.name}</div>
                                                 <p class="cost">
                                                     <fmt:formatNumber value="${item.price}" type="currency"
                                                                       currencySymbol="VND"/>
@@ -129,13 +128,11 @@
 
                                 <c:if test="${maHang eq mahangParam}">
                                     <li class="item-li">
-                                        <div class="card" style="width: 17rem;">
-                                            <div class="card-body">
-                                                <a href="Items?idItem=${item.idproduct}"><img class="card-img-top"
-                                                                                              src="images/product/${item.srcIMG}"
-                                                                                              alt=""></a>
-                                                <a class="card-title" href="Items?idItem=${item.idproduct}"
-                                                   id="card-title">${item.name}</a>
+                                        <div  class="card" style="width: 17rem;" >
+                                            <div id="${item.idproduct}" class="card-body" onclick="openPopup(this.id)">
+                                               <img class="card-img-top"  src="images/product/${item.srcIMG}" alt="">
+                                                <div class="card-title"
+                                                   id="card-title">${item.name}</div>
                                                 <p class="cost">
                                                     <fmt:formatNumber value="${item.price}" type="currency"
                                                                       currencySymbol="VND"/>
@@ -222,6 +219,18 @@
             </div>
         </section>
     </section>
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close" onclick="closePopup()" >&times;</span>
+            <div class="modal-detail"></div>
+            <p id="result"></p>
+
+
+
+        </div>
+    </div>
     <script
             src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script
@@ -231,4 +240,168 @@
     <!-- footer -->
     <%@include file="component/footer.jsp" %>
 </body>
+<script>
+
+    var test = false;
+
+    var modal = document.getElementById("myModal");
+    function openPopup(idproduct){
+        var form = document.getElementById('myForm');
+
+        $.ajax({
+            url: "AddPopupController",
+            type: "get",
+            data: {
+                searchInput: idproduct
+
+            },
+            success: function(data) {
+                var content = document.querySelector(".modal-detail");
+                content.innerHTML = data;
+                selectDefaultRadioButton();
+                updateValue(idproduct);
+                changePriceWithQuantity(idproduct)
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi (nếu có)
+                console.error("Lỗi: " + error);
+            }
+        });
+        modal.style.display = "block";
+
+
+    }
+    function closePopup(){
+        modal.style.display = "none";
+    }
+
+    function updateValue(idproduct) {
+        var quantityElement = document.querySelector('.detail-quantity');
+        var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+        var form = document.getElementById('myForm');
+        var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
+        var selectedValues = [];
+        checkboxes.forEach((checkbox) => {
+            selectedValues.push(checkbox.value);
+        });
+        var selectedSize = document.querySelector('input[name="size"]:checked').value;
+        $.ajax({
+            url: "SetPriceController",
+            type: "get",
+            data: {
+                idproduct: idproduct,
+                idsize: selectedSize,
+                seValue: selectedValues,
+                quantity: quantity
+
+            },
+            success: function(reponse) {
+                $('.price-product').html(reponse);
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi (nếu có)
+                console.error("Lỗi: " + error);
+            }
+        });
+
+        document.getElementById("result").innerHTML = "Selected gender: " + selectedSize;
+    }
+    function increasement(idproduct) {
+
+        test = true;
+        var quantityElement = document.querySelector('.detail-quantity');
+        var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+        var result = quantity + 1;
+
+
+
+        var resultStr = result.toString();
+        $('.detail-quantity').html(resultStr);
+        updateValue(idproduct)
+
+    }
+    function decreasement(idproduct){
+
+        test = true;
+        var quantityElement = document.querySelector('.detail-quantity');
+        var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+        var result = quantity - 1;
+
+        if(result < 0){
+            result = 0
+        }
+        var resultStr = result.toString();
+        $('.detail-quantity').html(resultStr);
+        updateValue(idproduct)
+
+    }
+    function selectDefaultRadioButton() {
+        $('#m').prop('checked', true);
+
+    }
+
+    function changePriceWithQuantity(idproduct){
+        var quantityElement = document.querySelector('.detail-quantity');
+        var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+
+       if(test == true){
+           $.ajax({
+               url: "SetPriceWithQuantity",
+               type: "get",
+               data: {
+                   idproduct: idproduct,
+                   quantity: quantity
+
+               },
+               success: function(reponse) {
+                   $('.price-product').html(reponse);
+
+               },
+               error: function(xhr, status, error) {
+                   // Xử lý lỗi (nếu có)
+                   console.error("Lỗi: " + error);
+               }
+           });
+
+       }
+
+    }
+    function addCartController(idproduct){
+        var quantityElement = document.querySelector('.detail-quantity');
+        var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+
+        var form = document.getElementById('myForm');
+        var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
+        var selectedValues = [];
+        checkboxes.forEach((checkbox) => {
+            selectedValues.push(checkbox.value);
+        });
+        var selectedSize = document.querySelector('input[name="size"]:checked').value;
+        $.ajax({
+            url: "AddProductToCartController",
+            type: "get",
+            data: {
+                idproduct: idproduct,
+                idsize: selectedSize,
+                seValue: selectedValues,
+                quantity: quantity
+
+            },
+            success: function(reponse) {
+                console.log("Success")
+            },
+            error: function(xhr, status, error) {
+                // Xử lý lỗi (nếu có)
+                console.error("Lỗi: " + error);
+            }
+        });
+    }
+    function selectDefaultCheckbox() {
+        var defaultCheckbox = document.getElementById('topping1');
+        if (defaultCheckbox) {
+            defaultCheckbox.checked = true;
+        }
+    }
+
+</script>
 </html>

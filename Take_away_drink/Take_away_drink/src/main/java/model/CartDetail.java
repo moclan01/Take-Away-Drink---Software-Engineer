@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class CartDetail implements Serializable {
+    private  String idcartdetail;
     private Cart cart;
     private Product item;
     private Size size;
@@ -15,13 +16,14 @@ public class CartDetail implements Serializable {
     public CartDetail(){
 
     }
-
-    public CartDetail(Cart cart, Product item, int price, int quantity, Size size) {
+    public CartDetail(String idcartdetail, Cart cart, Product item, Size size, int quantity, int price){
+        this.idcartdetail = idcartdetail;
         this.cart = cart;
         this.item = item;
-        this.price = price;
-        this.quantity = quantity;
         this.size = size;
+        this.quantity = quantity;
+        this.price = price;
+
     }
 
     public Cart getCart() {
@@ -72,13 +74,16 @@ public class CartDetail implements Serializable {
         this.toppings = toppings;
     }
 
+    public String getIdcartdetail() {
+        return idcartdetail;
+    }
+
+    public void setIdcartdetail(String idcartdetail) {
+        this.idcartdetail = idcartdetail;
+    }
+
     @Override
     public String toString() {
-        return "CartDetail{" +
-                "item=" + item +
-                ", size=" + size +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
+        return "CartDetail{" + "idcartdetail=" + idcartdetail + ", cart=" + cart + ", item=" + item + ", size=" + size + ", quantity=" + quantity + ", price=" + price + ", toppings=" + toppings + '}';
     }
 }

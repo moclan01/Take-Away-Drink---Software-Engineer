@@ -10,10 +10,11 @@ public class DAOCartDetailTopping extends  AbsDao<CartDetailTopping>{
     public boolean insert(CartDetailTopping cartDetailTopping) throws SQLException {
         JDBIConnector.getJdbi().useHandle(handle -> {
 
-            handle.createUpdate("Insert into cart_detail_toppings(idcart, idproduct,idtopping) values(?,?,?)")
-                    .bind(0,cartDetailTopping.getCart().getMaOrder())
-                    .bind(1,cartDetailTopping.getProduct().getIdproduct())
-                    .bind(2,cartDetailTopping.getTopping().getIdtopping())
+            handle.createUpdate("Insert into cart_detail_toppings(idcartdetail,idcart, idproduct,idtopping) values(?,?,?,?)")
+                    .bind(0,cartDetailTopping.getIdcartdetail())
+                    .bind(1,cartDetailTopping.getCart().getMaOrder())
+                    .bind(2,cartDetailTopping.getProduct().getIdproduct())
+                    .bind(3,cartDetailTopping.getTopping().getIdtopping())
                     .execute();
         });
         return true;
@@ -38,9 +39,13 @@ public class DAOCartDetailTopping extends  AbsDao<CartDetailTopping>{
         Cart cart = new DAOCart().getCartByUsername("admin1");
         Product product = new DAOProduct().getProductByID("product1");
         Topping topping = new DAOTopping().getToppingByID("topping1");
+        Size size = new DAOSize().getSizeByID("l");
 
-        CartDetailTopping cartDetailTopping = new CartDetailTopping(cart,product,topping);
+       CartDetail cartDetail = new CartDetail("cartdt15",cart,product,size,2,2);
+//        System.out.println(new DAOCartDetail().insert(cartDetail));
+        CartDetailTopping cartDetailTopping = new CartDetailTopping(cartDetail.getIdcartdetail(),cartDetail.getCart(),product,topping);
         System.out.println(new DAOCartDetailTopping().insert(cartDetailTopping));
+
     }
 
 }
