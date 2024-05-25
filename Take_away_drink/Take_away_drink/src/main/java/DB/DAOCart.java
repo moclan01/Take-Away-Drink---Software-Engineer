@@ -2,6 +2,7 @@ package DB;
 
 import model.Account;
 import model.Cart;
+import model.Product;
 import org.jdbi.v3.core.Handle;
 
 import java.sql.SQLException;
@@ -11,12 +12,13 @@ public class DAOCart extends  AbsDao<Cart>{
 
     @Override
     public boolean insert(Cart cart) throws SQLException {
-        JDBIConnector.getJdbi().useHandle(handle -> {
-
-            handle.createUpdate("Insert  into cart(idcart, iduser) values(?,?)")
-                    .bind(0,cart.getMaOrder()).bind(1,cart.getUsername()).execute();
+        return JDBIConnector.getJdbi().withHandle(handle -> {
+            int rowsAffected = handle.createUpdate("INSERT INTO cart(idcart, iduser) VALUES (?, ?)")
+                    .bind(0, cart.getMaOrder())
+                    .bind(1, cart.getUsername())
+                    .execute();
+            return rowsAffected > 0;
         });
-        return true;
     }
 
     @Override
@@ -52,6 +54,19 @@ public class DAOCart extends  AbsDao<Cart>{
                 cart.setAccount(customer);
             }
 
+            return cart;
+        }
+    }
+
+    public Cart getCartByID(String idCart) throws SQLException {
+        Cart cart =null;
+        try (Handle handle = JDBIConnector.getJdbi().open()) {
+            String sql = "SELECT * FROM cart WHERE idcart = ?";
+            cart = handle.createQuery(sql)
+                    .bind(0, idCart)
+                    .mapToBean(Cart.class)
+                    .findFirst()
+                    .orElse(null);
             return cart;
         }
     }

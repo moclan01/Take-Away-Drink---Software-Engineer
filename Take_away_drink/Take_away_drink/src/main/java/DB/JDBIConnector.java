@@ -11,8 +11,6 @@ import java.util.List;
 public class JDBIConnector {
     public static Jdbi jdbi;
 
-
-
     public static void connect() throws SQLException {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL("jdbc:mysql://localhost:3306/b2test");

@@ -11,9 +11,9 @@ public class Cart implements Serializable {
     private ArrayList<CartDetail> items = new ArrayList<>();
 
 
-    public Cart(String maOrder, Account account) {
+    public Cart(String idCart, Account account) {
         super();
-        this.idcart = maOrder;
+        this.idcart = idCart;
         this.account = account;
     }
     public  Cart(){
