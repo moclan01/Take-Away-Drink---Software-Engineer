@@ -1,14 +1,14 @@
-package org.example.take_away_drink.model;
+package model;
 
 public class Size {
     private String idsize;
-    private double price;
+    private int price;
     private String namesize;
 
     public Size(){
 
     }
-    public Size(String idsize, String namesize, double price) {
+    public Size(String idsize, String namesize, int price) {
         this.idsize = idsize;
         this.namesize = namesize;
         this.price = price;
@@ -30,12 +30,16 @@ public class Size {
         this.namesize = namesize;
     }
 
-    public double getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
+    @Override
+    public String toString() {
+        return "idsize=" + idsize + ", namesize=" + namesize + ", price=" + price;
+    }
 }

@@ -1,26 +1,29 @@
-package org.example.take_away_drink.model;
+package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class CartDetail implements Serializable {
+    private  String idcartdetail;
     private Cart cart;
     private Product item;
-    private Topping topping;
     private Size size;
     private int quantity;
     private int price;
 
+    private ArrayList<Topping> toppings = new ArrayList<>();
+
     public CartDetail(){
 
     }
-
-    public CartDetail(Cart cart, Product item, int price, int quantity, Size size, Topping topping) {
+    public CartDetail(String idcartdetail, Cart cart, Product item, Size size, int quantity, int price){
+        this.idcartdetail = idcartdetail;
         this.cart = cart;
         this.item = item;
-        this.price = price;
-        this.quantity = quantity;
         this.size = size;
-        this.topping = topping;
+        this.quantity = quantity;
+        this.price = price;
+
     }
 
     public Cart getCart() {
@@ -63,22 +66,24 @@ public class CartDetail implements Serializable {
         this.size = size;
     }
 
-    public Topping getTopping() {
-        return topping;
+    public ArrayList<Topping> getToppings() {
+        return toppings;
     }
 
-    public void setTopping(Topping topping) {
-        this.topping = topping;
+    public void setToppings(ArrayList<Topping> toppings) {
+        this.toppings = toppings;
+    }
+
+    public String getIdcartdetail() {
+        return idcartdetail;
+    }
+
+    public void setIdcartdetail(String idcartdetail) {
+        this.idcartdetail = idcartdetail;
     }
 
     @Override
     public String toString() {
-        return "CartDetail{" +
-                "item=" + item +
-                ", topping=" + topping +
-                ", size=" + size +
-                ", quantity=" + quantity +
-                ", price=" + price +
-                '}';
+        return "CartDetail{" + "idcartdetail=" + idcartdetail + ", cart=" + cart + ", item=" + item + ", size=" + size + ", quantity=" + quantity + ", price=" + price + ", toppings=" + toppings + '}';
     }
 }
