@@ -7,7 +7,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.*;
+import model.Account;
+import model.Cart;
+import model.CartDetail;
+import model.Topping;
+import model.Product;
+import model.Size;
+import model.CartDetailTopping;
+
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,7 +26,7 @@ import java.util.Random;
 @WebServlet("/AddProductToCartController")
 public class AddProductToCartController extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         DAOProduct daoProduct = new DAOProduct();
         DAOSize daoSize = new DAOSize();
@@ -73,10 +80,12 @@ public class AddProductToCartController extends HttpServlet {
             Size size = daoSize.getSizeByID(idsize);
 
             product.setSize(size);
-            if (toppings.size()>0){
+            if (toppings.size() > 0){
                 for (Topping topping : toppings) {
                     product.setPrice(product.getPrice() + topping.getPricetopping());
                 }
+            }else {
+                product.setPrice(product.getPrice());
             }
             product.setPrice(product.getPrice() + size.getPrice());
             cartDetail.setItem(product);
@@ -86,7 +95,7 @@ public class AddProductToCartController extends HttpServlet {
 
             System.out.println(cartDetail);
             daoCartDetail.insert(cartDetail);
-            if (toppings.size()>0){
+            if (!toppings.isEmpty()){
                 for (Topping topping : toppings) {
                     CartDetailTopping cartDetailTopping = new CartDetailTopping(cartDetail.getIdcartdetail(),cart,product,topping);
                     daoCartDetailTopping.insert(cartDetailTopping);

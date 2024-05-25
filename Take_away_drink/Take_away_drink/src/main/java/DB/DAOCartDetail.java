@@ -1,13 +1,28 @@
 package DB;
 
 import model.*;
+import org.jdbi.v3.core.Jdbi;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class DAOCartDetail extends AbsDao<CartDetail>{
+    Jdbi jdbi;
+    DAOProduct daoProduct;
+    DAOSize daoSize;
+    DAOCart daoCart;
+    public DAOCartDetail() {
+        this.jdbi = JDBCConnector.getInstance();
+        daoProduct = new DAOProduct();
+        daoSize = new DAOSize();
+        daoCart = new DAOCart();
+    }
+
     @Override
     public boolean insert(CartDetail cartDetail) throws SQLException {
         JDBIConnector.getJdbi().useHandle(handle -> {
@@ -61,7 +76,7 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         });
         return true;
     }
-    private ArrayList<Integer> returnArrayNum(ArrayList<String> arrStr) {
+    public ArrayList<Integer> returnArrayNum(ArrayList<String> arrStr) {
         ArrayList<Integer> arrNum = new ArrayList<>();
         for (String str : arrStr) {
             int num = removeString(str);
@@ -70,14 +85,14 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         return arrNum;
 
     }
-    private int removeString(String str) {
+    public int removeString(String str) {
         int rs;
         String newStr = str.substring(6);
         rs = Integer.parseInt(newStr);
         return rs;
     }
 
-    private int getNumRandom(ArrayList<Integer> arrNum) {
+    public int getNumRandom(ArrayList<Integer> arrNum) {
         Random random = new Random();
 
         int rs;
@@ -102,6 +117,40 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         }
         return rs;
     }
+
+    public List<CartDetail> getListProductByUsername(String idcart){
+        List<CartDetail> productList = new ArrayList<>();
+        try {
+//            productList = JDBIConnector.getJdbi().withHandle(handle ->
+//                handle.createQuery("SELECT cart_details.* FROM cart_details inner join cart on cart_details.idcart = cart.idcart WHERE cart.iduser = ?")
+//                        .bind(0,username)
+//                        .mapToBean(CartDetail.class)
+//                        .list()
+//            ) ;
+            Connection conn = JDBCConnector.getConnection();
+            String sql = "SELECT * FROM cart_details WHERE idcart = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setObject(1,idcart);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String idCartDetail = rs.getString("idcartdetail");
+                String idCart = rs.getString("idcart");
+                String idProduct = rs.getString("idproduct");
+                String idSize = rs.getString("idsize");
+                int quantity = rs.getInt("quantity");
+                int price = rs.getInt("price");
+                Cart cart = daoCart.getCartByID(idCart);
+                Product product = daoProduct.getProductByID(idProduct);
+                Size size = daoSize.getSizeByID(idSize);
+                CartDetail cartDetail = new CartDetail(idCartDetail,cart,product,size,quantity,price);
+                productList.add(cartDetail);
+            }
+            JDBCConnector.closeConnection(conn, stmt, rs);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return productList;
+    }
     public static void main(String[] args) throws SQLException {
         Cart cart = new DAOCart().getCartByUsername("admin1");
         Account account = new DaoUser().getUserByUsername("admin1");
@@ -115,8 +164,13 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         String idCartDetail = "cartdt" + numberIdCartDetail;
         CartDetail cartDetail = new CartDetail("cartdt01",cart,product,size,2,2);
 
+        List<CartDetail> productList = new DAOCartDetail().getListProductByUsername("cart1");
+        for (CartDetail product1 : productList){
 
-        System.out.println(new DAOCartDetail().updateQuantity(2, cartDetail));
+            System.out.println(product1.getItem());
+        }
+        System.out.println(productList.size());
+//        System.out.println(new DAOCartDetail().updateQuantity(2, cartDetail));
 
     }
 

@@ -42,5 +42,7 @@ public class DAOSize extends AbsDao<Size>{
         for (Size size : sizes) {
             System.out.println(size.getPrice());
         }
+        Size size = new DAOSize().getSizeByID("l");
+        System.out.println(size);
     }
 }

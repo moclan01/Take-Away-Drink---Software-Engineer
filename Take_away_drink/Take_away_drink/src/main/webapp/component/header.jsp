@@ -66,7 +66,7 @@
 <%--								<li><a class="dropdown-item" href="admin" class="cart" id="cart">admin</a></li>--%>
 <%--								<li><hr class="dropdown-divider"></li>--%>
 <%--									</c:if>--%>
-								<li><a class="dropdown-item" href="MKh?makhachhang=${user.username}" class="cart" id="cart">Giỏ hàng</a></li>
+								<li><a class="dropdown-item" href="MKh?username=${user.username}" class="cart" id="cart">Giỏ hàng</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="DestroySession">Thoát tài khoản</a></li>
 							</ul></li>

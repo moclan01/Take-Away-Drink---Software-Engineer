@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th5 21, 2024 lúc 05:39 PM
--- Phiên bản máy phục vụ: 10.4.27-MariaDB
--- Phiên bản PHP: 8.2.0
+-- Thời gian đã tạo: Th5 09, 2024 lúc 05:50 PM
+-- Phiên bản máy phục vụ: 10.4.32-MariaDB
+-- Phiên bản PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -44,6 +44,10 @@ INSERT INTO `cart` (`idcart`, `iduser`) VALUES
 -- Bẫy `cart`
 --
 DELIMITER $$
+CREATE TRIGGER `trg_cart` BEFORE INSERT ON `cart` FOR EACH ROW SET NEW.idcart = CONCAT('cart', CAST(NEXT VALUE FOR seq_cart AS CHAR))
+$$
+DELIMITER ;
+DELIMITER $$
 CREATE TRIGGER `trigger_cart` BEFORE INSERT ON `cart` FOR EACH ROW set new.idcart = CONCAT('cart', CAST(next value for seq_cart as CHAR))
 $$
 DELIMITER ;
@@ -54,7 +58,7 @@ DELIMITER ;
 -- Cấu trúc bảng cho bảng `cart_details`
 --
 
-CREATE TABLE `cart_details` (
+CREATE TABLE `cartdetail` (
   `idcart` varchar(10) NOT NULL,
   `idproduct` varchar(10) NOT NULL,
   `idsize` varchar(10) NOT NULL,
@@ -80,13 +84,6 @@ CREATE TABLE `cart_detail_toppings` (
   `idproduct` varchar(10) NOT NULL,
   `idtopping` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-
---
--- Đang đổ dữ liệu cho bảng `cart_detail_toppings`
---
-
-INSERT INTO `cart_detail_toppings` (`idcart`, `idproduct`, `idtopping`) VALUES
-('cart1001', 'product1', 'topping1');
 
 -- --------------------------------------------------------
 
@@ -354,19 +351,12 @@ ALTER TABLE `cart`
   ADD KEY `iduser` (`iduser`);
 
 --
--- Chỉ mục cho bảng `cart_details`
+-- Chỉ mục cho bảng `cartdetail`
 --
-ALTER TABLE `cart_details`
+ALTER TABLE `cartdetail`
   ADD KEY `idcart` (`idcart`),
   ADD KEY `idproduct` (`idproduct`),
-  ADD KEY `idsize` (`idsize`);
-
---
--- Chỉ mục cho bảng `cart_detail_toppings`
---
-ALTER TABLE `cart_detail_toppings`
-  ADD KEY `idcart` (`idcart`),
-  ADD KEY `idproduct` (`idproduct`),
+  ADD KEY `idsize` (`idsize`),
   ADD KEY `idtopping` (`idtopping`);
 
 --
@@ -419,18 +409,11 @@ ALTER TABLE `cart`
 --
 -- Các ràng buộc cho bảng `cart_details`
 --
-ALTER TABLE `cart_details`
-  ADD CONSTRAINT `cart_details_ibfk_1` FOREIGN KEY (`idcart`) REFERENCES `cart` (`idcart`),
-  ADD CONSTRAINT `cart_details_ibfk_2` FOREIGN KEY (`idproduct`) REFERENCES `product` (`idproduct`),
-  ADD CONSTRAINT `cart_details_ibfk_3` FOREIGN KEY (`idsize`) REFERENCES `size` (`idsize`);
-
---
--- Các ràng buộc cho bảng `cart_detail_toppings`
---
-ALTER TABLE `cart_detail_toppings`
-  ADD CONSTRAINT `cart_detail_toppings_ibfk_1` FOREIGN KEY (`idcart`) REFERENCES `cart` (`idcart`),
-  ADD CONSTRAINT `cart_detail_toppings_ibfk_2` FOREIGN KEY (`idproduct`) REFERENCES `product` (`idproduct`),
-  ADD CONSTRAINT `cart_detail_toppings_ibfk_3` FOREIGN KEY (`idtopping`) REFERENCES `topping` (`idtopping`);
+ALTER TABLE `cartdetail`
+  ADD CONSTRAINT `cartdetail_ibfk_1` FOREIGN KEY (`idcart`) REFERENCES `cart` (`idcart`),
+  ADD CONSTRAINT `cartdetail_ibfk_2` FOREIGN KEY (`idproduct`) REFERENCES `product` (`idproduct`),
+  ADD CONSTRAINT `cartdetail_ibfk_3` FOREIGN KEY (`idsize`) REFERENCES `size` (`idsize`),
+  ADD CONSTRAINT `cartdetail_ibfk_4` FOREIGN KEY (`idtopping`) REFERENCES `topping` (`idtopping`);
 
 --
 -- Các ràng buộc cho bảng `product`
