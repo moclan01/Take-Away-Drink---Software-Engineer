@@ -211,6 +211,9 @@
 	}
 
 	function addCartController(idproduct){
+		var quantityElement = document.querySelector('.detail-quantity');
+		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
+
 		var form = document.getElementById('myForm');
 		var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
 		var selectedValues = [];
@@ -224,7 +227,8 @@
 			data: {
 				idproduct: idproduct,
 				idsize: selectedSize,
-				seValue: selectedValues
+				seValue: selectedValues,
+				quantity: quantity
 
 			},
 			success: function(reponse) {
