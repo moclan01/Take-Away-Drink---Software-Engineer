@@ -26,7 +26,7 @@ import java.util.Random;
 @WebServlet("/AddProductToCartController")
 public class AddProductToCartController extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         DAOProduct daoProduct = new DAOProduct();
         DAOSize daoSize = new DAOSize();
@@ -89,15 +89,15 @@ public class AddProductToCartController extends HttpServlet {
             }
             product.setPrice(product.getPrice() + size.getPrice());
             cartDetail.setItem(product);
-            cartDetail.setPrice(product.getPrice());
             cartDetail.setSize(product.getSize());
             cartDetail.setQuantity(numberQuantity);
+            cartDetail.setPrice(product.getPrice()* cartDetail.getQuantity());
 
-            System.out.println(cartDetail);
+            System.out.println(cartDetail.getPrice());
             daoCartDetail.insert(cartDetail);
             if (!toppings.isEmpty()){
                 for (Topping topping : toppings) {
-                    CartDetailTopping cartDetailTopping = new CartDetailTopping(cartDetail.getIdcartdetail(),cart,product,topping);
+                    CartDetailTopping cartDetailTopping = new CartDetailTopping(cartDetail,cart,product,topping);
                     daoCartDetailTopping.insert(cartDetailTopping);
                     System.out.println(cartDetailTopping);
                 }

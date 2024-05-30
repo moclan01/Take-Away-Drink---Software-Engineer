@@ -2,6 +2,7 @@ package controller;
 
 import DB.DAOCart;
 import DB.DAOCartDetail;
+import DB.DAOCartDetailTopping;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ public class CartController extends HttpServlet {
         try {
             DAOCart orderDAO = new DAOCart();
             DAOCartDetail daoCartDetail = new DAOCartDetail();
+            DAOCartDetailTopping cartDetailTopping = new DAOCartDetailTopping();
             Cart order = null;
             order = orderDAO.getCartByUsername(username);
 
@@ -34,8 +36,11 @@ public class CartController extends HttpServlet {
         }else {
             String maorder = order.getMaOrder();
             List<CartDetail> orderDetail = daoCartDetail.getListProductByUsername(maorder);
+            String totalPrice = daoCartDetail.totalPrice(maorder);
             request.setAttribute("gioHang",orderDetail);
             request.setAttribute("order", order);
+           request.setAttribute("totalPrice", totalPrice);
+            System.out.println("Price: "+totalPrice);
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/cart.jsp");
             rd.forward(request, response);
         }
