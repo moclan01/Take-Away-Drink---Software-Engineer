@@ -42,15 +42,40 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
 
     @Override
     public boolean delete(CartDetail cartDetail) {
-        return false;
+        try {
+            JDBIConnector.getJdbi().useHandle(handle -> {
+                handle.createUpdate("delete from cart_details where idcartdetail =?").bind(0,cartDetail.getIdcartdetail()).execute();
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
+    public boolean deleteByIdCartDetail(String idcartdetail){
+        try {
+            JDBIConnector.getJdbi().useHandle(handle -> {
+                handle.createUpdate("delete from cart_details where idcartdetail =?").bind(0,idcartdetail).execute();
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
     @Override
     public List<CartDetail> selectAll() throws SQLException {
         List<CartDetail> cartDetails = (List<CartDetail>) JDBIConnector.getJdbi().withHandle(handle -> {
             return handle.createQuery("select * from cart_details").mapToBean(CartDetail.class).list();
         });
         return cartDetails;
+    }
+    public CartDetail getCartDetail(String idcartdetail) throws SQLException {
+        for (CartDetail cartDetail: selectAll()){
+            if(cartDetail.getIdcartdetail().equalsIgnoreCase(idcartdetail)){
+                return cartDetail;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -75,6 +100,16 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
                     .execute();
         });
         return true;
+    }
+    public String totalPrice(String idcart) throws SQLException {
+        String rs ="";
+        int total = 0;
+        for (CartDetail cartDetail: getListProductByUsername(idcart)){
+            total += cartDetail.getPrice();
+        }
+
+        rs = String.valueOf(total);
+        return rs;
     }
     public ArrayList<Integer> returnArrayNum(ArrayList<String> arrStr) {
         ArrayList<Integer> arrNum = new ArrayList<>();
@@ -118,15 +153,25 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         return rs;
     }
 
+    public boolean setQuantityCartDetail(int quantity,int price, String idcartdetail){
+        try (Connection connection = JDBCConnector.getConnection()) {
+            String sql = "UPDATE cart_details SET quantity = ?, price =? WHERE idcartdetail = ?";
+            System.out.println(sql);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, quantity);
+                preparedStatement.setLong(2, price);
+                preparedStatement.setString(3, idcartdetail);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
     public List<CartDetail> getListProductByUsername(String idcart){
         List<CartDetail> productList = new ArrayList<>();
         try {
-//            productList = JDBIConnector.getJdbi().withHandle(handle ->
-//                handle.createQuery("SELECT cart_details.* FROM cart_details inner join cart on cart_details.idcart = cart.idcart WHERE cart.iduser = ?")
-//                        .bind(0,username)
-//                        .mapToBean(CartDetail.class)
-//                        .list()
-//            ) ;
             Connection conn = JDBCConnector.getConnection();
             String sql = "SELECT * FROM cart_details WHERE idcart = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -152,25 +197,8 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         return productList;
     }
     public static void main(String[] args) throws SQLException {
-        Cart cart = new DAOCart().getCartByUsername("admin1");
-        Account account = new DaoUser().getUserByUsername("admin1");
-        Size size = new DAOSize().getSizeByID("l");
-        Product product = new DAOProduct().getProductByID("product1");
-
-        ArrayList<String> listIdCartDetail = new DAOCartDetail().getAllIdCartDetail();
-
-        ArrayList<Integer> listNumber = new DAOCartDetail().returnArrayNum(listIdCartDetail);
-        int numberIdCartDetail = new DAOCartDetail().getNumRandom(listNumber);
-        String idCartDetail = "cartdt" + numberIdCartDetail;
-        CartDetail cartDetail = new CartDetail("cartdt01",cart,product,size,2,2);
-
-        List<CartDetail> productList = new DAOCartDetail().getListProductByUsername("cart1");
-        for (CartDetail product1 : productList){
-
-            System.out.println(product1.getItem());
-        }
-        System.out.println(productList.size());
-//        System.out.println(new DAOCartDetail().updateQuantity(2, cartDetail));
+//
+        System.out.println(new DAOCartDetail().totalPrice("cart1001"));
 
     }
 

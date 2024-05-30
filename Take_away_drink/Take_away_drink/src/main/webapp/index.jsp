@@ -379,7 +379,7 @@
         var selectedSize = document.querySelector('input[name="size"]:checked').value;
         $.ajax({
             url: "AddProductToCartController",
-            type: "POST",
+            type: "GET",
             data: {
                 idproduct: idproduct,
                 idsize: selectedSize,

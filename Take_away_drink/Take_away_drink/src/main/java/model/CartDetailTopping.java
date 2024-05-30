@@ -1,7 +1,7 @@
 package model;
 
 public class CartDetailTopping {
-    private String idcartdetail;
+    private CartDetail cartDetail;
     private Cart cart;
     private Product product;
     private Topping topping;
@@ -11,8 +11,8 @@ public class CartDetailTopping {
 
     }
 
-    public CartDetailTopping(String idcartdetail, Cart cart, Product product, Topping topping) {
-        this.idcartdetail = idcartdetail;
+    public CartDetailTopping(CartDetail idcartdetail, Cart cart, Product product, Topping topping) {
+        this.cartDetail= idcartdetail;
         this.cart = cart;
         this.product = product;
         this.topping = topping;
@@ -42,21 +42,16 @@ public class CartDetailTopping {
         this.topping = topping;
     }
 
-    public String getIdcartdetail() {
-        return idcartdetail;
+    public CartDetail getCartDetail() {
+        return cartDetail;
     }
 
-    public void setIdcartdetail(String idcartdetail) {
-        this.idcartdetail = idcartdetail;
+    public void setCartDetail(CartDetail cartDetail) {
+        this.cartDetail = cartDetail;
     }
 
     @Override
     public String toString() {
-        return "CartDetailTopping{" +
-                "cart=" + cart +
-                ", idcartdetail='" + idcartdetail + '\'' +
-                ", product=" + product +
-                ", topping=" + topping +
-                '}';
+        return topping.getNametopping();
     }
 }

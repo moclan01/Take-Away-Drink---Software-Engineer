@@ -129,6 +129,8 @@
 
 </body>
 <script>
+	var test = false;
+
 	var modal = document.getElementById("myModal");
 	 function openPopup(idproduct){
 		 var form = document.getElementById('myForm');
@@ -144,7 +146,9 @@
 				 var content = document.querySelector(".modal-detail");
 				 content.innerHTML = data;
 				 selectDefaultRadioButton();
-				 updateValue(idproduct)
+				 updateValue(idproduct);
+				 changePriceWithQuantity(idproduct)
+
 			 },
 			 error: function(xhr, status, error) {
 				 // Xử lý lỗi (nếu có)
@@ -160,6 +164,8 @@
 	 }
 
 	function updateValue(idproduct) {
+		var quantityElement = document.querySelector('.detail-quantity');
+		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
 		var form = document.getElementById('myForm');
 		var checkboxes = form.querySelectorAll('input[name="topping"]:checked');
 		var selectedValues = [];
@@ -173,7 +179,8 @@
 			data: {
 				idproduct: idproduct,
 				idsize: selectedSize,
-				seValue: selectedValues
+				seValue: selectedValues,
+				quantity: quantity
 
 			},
 			success: function(reponse) {
@@ -187,15 +194,20 @@
 
 		document.getElementById("result").innerHTML = "Selected gender: " + selectedSize;
 	}
-	function increasement() {
+	function increasement(idproduct) {
+		test = true;
 		var quantityElement = document.querySelector('.detail-quantity');
 		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
 		var result = quantity + 1;
-		var resultStr = result.toString();
 
+
+
+		var resultStr = result.toString();
 		$('.detail-quantity').html(resultStr);
+		updateValue(idproduct)
 	}
-	function decreasement(){
+	function decreasement(idproduct){
+		test = true;
 		var quantityElement = document.querySelector('.detail-quantity');
 		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
 		var result = quantity - 1;
@@ -203,13 +215,41 @@
 		if(result < 0){
 			result = 0
 		}
-		$('.detail-quantity').html(result);
+		var resultStr = result.toString();
+		$('.detail-quantity').html(resultStr);
+		updateValue(idproduct)
+
 	}
 	function selectDefaultRadioButton() {
 		$('#m').prop('checked', true);
 
 	}
+	function changePriceWithQuantity(idproduct){
+		var quantityElement = document.querySelector('.detail-quantity');
+		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
 
+		if(test == true){
+			$.ajax({
+				url: "SetPriceWithQuantity",
+				type: "get",
+				data: {
+					idproduct: idproduct,
+					quantity: quantity
+
+				},
+				success: function(reponse) {
+					$('.price-product').html(reponse);
+
+				},
+				error: function(xhr, status, error) {
+					// Xử lý lỗi (nếu có)
+					console.error("Lỗi: " + error);
+				}
+			});
+
+		}
+
+	}
 	function addCartController(idproduct){
 		var quantityElement = document.querySelector('.detail-quantity');
 		var quantity = parseInt(quantityElement.textContent || quantityElement.innerText);
