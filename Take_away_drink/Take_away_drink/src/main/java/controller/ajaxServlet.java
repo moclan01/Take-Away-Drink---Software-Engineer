@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import model.Account;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -27,8 +28,14 @@ public class ajaxServlet extends HttpServlet {
 
         String amountText = req.getParameter("price");
 
+        String fullName = req.getParameter("fullName");
+        String phone = req.getParameter("phone");
+        String address = req.getParameter("address");
         HttpSession session = req.getSession();
         session.setAttribute("amount", amountText);
+        session.setAttribute("fullName", fullName);
+        session.setAttribute("phone", phone);
+        session.setAttribute("address", address);
 
         amountText = amountText.substring(0, amountText.length() - 1);
 

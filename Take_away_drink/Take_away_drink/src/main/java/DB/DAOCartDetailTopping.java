@@ -99,7 +99,7 @@ public class DAOCartDetailTopping extends  AbsDao<CartDetailTopping>{
 
        CartDetail cartDetail = new CartDetail("cartdt15",cart,product,size,2,2);
 
-        System.out.println(new DAOCartDetailTopping().deleteToppingByIdCartDetail("cartdt67"));
+        System.out.println(new DAOCartDetailTopping().getListToppingByIdCartDetail("cartdt1001"));
 
     }
 

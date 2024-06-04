@@ -103,71 +103,55 @@
         cursor: pointer;
     }
 
-    input {
-        border: none;
-        display: inline;
-        font-family: inherit;
-        font-size: 20px;
-        color: black;
-        width: auto;
-        background-color: transparent;
-        outline: none;
-        width: 100px
-    }
+
 </style>
 <body>
 <div id="container">
 
-    <div id="selector_header">
-        <div>
-            <h2>You have chosen</h2>
 
-
-        </div>
-        <div class=description_box>
-            <%--            <a href="/MusicWebsite/views/pages/upgradePre.jsp">Change to premium package</a>--%>
-
-        </div>
-    </div>
     <div id="selector_body">
+        <form  action="ajaxServlet"
+               id="frmCreateOrder1" method="post">
+            <input type="hidden" name = "price" value="${priceTotal}">
+        <div class="mb-3">
+            <label for="fullName" class="form-label"><i class="fa-solid fa-user"></i>
+            </label> <input placeholder="Họ và tên" type="text" class="form-control"
+                            id="fullName" name="fullName" required="required" >
+        </div>
+        <div class="mb-3">
+            <label for="phone" class="form-label"><i class="fa-solid fa-phone"></i>
+            </label> <input placeholder="Số điện thoại" type="text" class="form-control"
+                            id="phone" name="phone" required="required" >
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label"><i class="fas fa-map-marker-alt"></i>
+            </label> <input placeholder="Địa chỉ" type="text" class="form-control"
+                            id="address" name="address" required="required" >
+        </div>
         <h2>Pay once in advance, not automatically renewed.</h2>
+
         <div id="paymment_options">
 
-            <form class="payment_option" action="ajaxServlet"
-                  id="frmCreateOrder1" method="post">
-                <input type="hidden" name = "price" value="20000">
 
-                <div class="script_payment">
-                    <div>
-                        <h2>${priceTotal}₫ </h2>
 
+                <div class="payment_option">
+
+                    <div class="script_payment">
+                        <div>
+                            <h2>${priceTotal}₫ </h2>
+
+                        </div>
+                        <button type="submit" class="payment_box" id="pay_1">
+                            <p>Pay with VNPay</p>
+                            <i></i>
+                        </button>
                     </div>
-
                 </div>
-                <button type="submit" class="payment_box" id="pay_1">
-                    <p>Pay with VNPay</p>
-                    <i></i>
-                </button>
-            </form>
 
 
-            <%--            <form class="payment_option" action="ajaxServlet"--%>
-            <%--                  id="frmCreateOrder2" method="get">--%>
-            <%--                <div class="script_payment">--%>
-            <%--                    <input type="hidden" name = "amount" value="${optionPrice2}">--%>
-            <%--                    <input type="hidden" name = "period" value="${optionText2}">--%>
-            <%--                    <div>--%>
-            <%--                        <h2>${optionPrice2}₫ for ${optionText2}</h2>--%>
-            <%--                    </div>--%>
-
-            <%--                </div>--%>
-            <%--                <button type="submit" class="payment_box" id="pay_2">--%>
-            <%--                    <p>Pay with VNPay</p>--%>
-            <%--                    <i></i>--%>
-            <%--                </button>--%>
-            <%--            </form>--%>
 
         </div>
+        </form>
     </div>
 </div>
 <script src="https://pay.vnpay.vn/lib/vnpay/vnpay.min.js"></script>
