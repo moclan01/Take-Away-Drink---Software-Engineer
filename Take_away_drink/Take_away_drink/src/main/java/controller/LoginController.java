@@ -1,6 +1,7 @@
 package controller;
 
 import DB.DAOCart;
+import DB.DaoUser;
 import DB.JDBIConnector;
 
 import jakarta.servlet.RequestDispatcher;
@@ -24,8 +25,9 @@ public class LoginController extends HttpServlet {
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
         JDBIConnector dao = new JDBIConnector();
+        DaoUser daoUser = new DaoUser();
         try {
-            Account user = dao.getUser(username,password);
+            Account user = daoUser.getUser(username,password);
             if(user!=null){
                 DAOCart daoCart = new DAOCart();
                 Cart cart = daoCart.getCartByUsername(user.getUsername());

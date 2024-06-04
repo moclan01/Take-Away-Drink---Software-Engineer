@@ -53,7 +53,7 @@ public class SignUpController extends HttpServlet {
                     Pattern pattern = Pattern.compile("^(?=.*[a-zA-Z])(?=.*[0-9]).{8,16}$");
                     Matcher matcher = pattern.matcher(password);
                     if (matcher.matches()) {
-                        Account user = new Account(username,email,password);
+                        Account user = new Account(username,email,password,"user");
                         daoUser.insert(user);
                         Cart cart = new Cart("",user);
                         daoCart.insert(cart);

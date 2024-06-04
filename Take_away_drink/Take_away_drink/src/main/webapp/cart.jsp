@@ -32,6 +32,7 @@
     </style>
 </head>
 <body>
+<jsp:include page="component/header.jsp"></jsp:include>
 
 <jsp:useBean id="product" class="DB.DAOProduct"></jsp:useBean>
 <jsp:useBean id="toppinglist" class="DB.DAOCartDetailTopping"></jsp:useBean>
@@ -39,7 +40,7 @@
 <input type="hidden" name="makhachhang" value="${user.username}"/>
 <input type="hidden" name="maorder" value="${order.getMaOrder()}"/>
 
-<div>
+<div class="container-cart">
     <table id="cart-table">
         <thead>
         <tr class="product-row-title">
@@ -92,6 +93,7 @@
         <button class="inner_button">Buy</button>
     </a>
 </div>
+
 </body>
 
 <script>

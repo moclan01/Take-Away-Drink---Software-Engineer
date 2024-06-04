@@ -59,8 +59,6 @@ public class DAOBill extends AbsDao<Bill>{
         return rs;
     }
     public static void main(String[] args) throws SQLException {
-        Account acc = new Account("admin1", "","");
-        Bill bill = new Bill("bill01", acc, null, 1, "Tam", 1,"a");
-        System.out.println(new DAOBill().newIdBill(new DAOBill().getAllIdBill()));
+
     }
 }

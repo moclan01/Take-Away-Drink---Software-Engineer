@@ -9,7 +9,7 @@
                 <div class="col-top-footer-1">
                     <h4 class="title-menu-top">
                        
-                        Tổng công ty oto Amber Việt Nam
+                        Tổng công ty CNTP Xuu Tea Việt Nam
                        
                     </h4>
                     <ul class="footer-list-1">
@@ -25,7 +25,7 @@
                     </h4>
                     <ul class="footer-list-2">
                         <li class="footer-list-detail"><a href="index.jsp" id="link-footer">Trang chủ</a>  </li>
-                        <li class="footer-list-detail"><a href="Contact.jsp" id="link-footer">Liên hệ</a></li>
+
                         <li class="footer-list-detail"><a href="ListItems.jsp" id="link-footer">Sản phẩm</a></li>
                       
                     </ul>
@@ -38,7 +38,7 @@
 
         <div class="bot">
             <div class="bot_footer">
-                <p>Bản quyền thuộc về team @Amber</p>
+                <p>Bản quyền thuộc về team @XuuTea</p>
             </div>
         </div>
     </footer>

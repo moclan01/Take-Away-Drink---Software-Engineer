@@ -39,8 +39,8 @@ public class CartController extends HttpServlet {
             String totalPrice = daoCartDetail.totalPrice(maorder);
             request.setAttribute("gioHang",orderDetail);
             request.setAttribute("order", order);
-           request.setAttribute("totalPrice", totalPrice);
-            System.out.println("Price: "+totalPrice);
+            request.setAttribute("totalPrice", totalPrice);
+
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/cart.jsp");
             rd.forward(request, response);
         }

@@ -71,14 +71,19 @@ public class DAOCartDetailTopping extends  AbsDao<CartDetailTopping>{
     public String listToppingToString(String idcartdetail){
         List<CartDetailTopping> cartDetailToppings = getListToppingByIdCartDetail(idcartdetail);
         String str = "";
-        for (int i = 0; i < cartDetailToppings.size(); i++) {
-            if(i == cartDetailToppings.size()-1){
-                str += cartDetailToppings.get(i).toString();
-            }else{
-                str+=cartDetailToppings.get(i).toString()+", ";
+        if(cartDetailToppings.size()==0){
+            str += "No topping";
+        }else{
+            for (int i = 0; i < cartDetailToppings.size(); i++) {
+                if(i == cartDetailToppings.size()-1){
+                    str += cartDetailToppings.get(i).toString();
+                }else{
+                    str+=cartDetailToppings.get(i).toString()+", ";
 
+                }
             }
         }
+
         return str;
     }
     public boolean deleteToppingByIdCartDetail(String idcartdetail){

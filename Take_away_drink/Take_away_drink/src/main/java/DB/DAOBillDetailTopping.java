@@ -40,18 +40,18 @@ public class DAOBillDetailTopping extends AbsDao<BillDetailTopping> {
         return false;
     }
     public static void main(String[] args) throws SQLException {
-        List<CartDetail> cartDetails = new DAOCartDetail().getListProductByUsername("cart1001");
-        Bill bill = new Bill("bill101",new Account("admin1","",""),null, 0, "String name",0,"");
-        new DAOBill().insert(bill);
-        for (CartDetail cartDetail : cartDetails) {
-            BillDetail billDetail = new BillDetail(new DAOBillDetail().newIdBill(new DAOBillDetail().getAllIdBillDetail()), bill, cartDetail.getItem(), cartDetail.getSize(), cartDetail.getQuantity(),cartDetail.getPrice());
-            new DAOBillDetail().insert(billDetail);
-            List<CartDetailTopping> cartDetailToppings = new DAOCartDetailTopping().getListToppingByIdCartDetail(cartDetail.getIdcartdetail());
-            for (CartDetailTopping cartDetailTopping : cartDetailToppings) {
-                BillDetailTopping billDetailTopping = new BillDetailTopping(billDetail,cartDetailTopping.getProduct(),cartDetailTopping.getTopping());
-                new DAOBillDetailTopping().insert(billDetailTopping);
-            }
-
-        }
+//        List<CartDetail> cartDetails = new DAOCartDetail().getListProductByUsername("cart1001");
+//        Bill bill = new Bill("bill101",new Account("admin1","",""),null, 0, "String name",0,"");
+//        new DAOBill().insert(bill);
+//        for (CartDetail cartDetail : cartDetails) {
+//            BillDetail billDetail = new BillDetail(new DAOBillDetail().newIdBill(new DAOBillDetail().getAllIdBillDetail()), bill, cartDetail.getItem(), cartDetail.getSize(), cartDetail.getQuantity(),cartDetail.getPrice());
+//            new DAOBillDetail().insert(billDetail);
+//            List<CartDetailTopping> cartDetailToppings = new DAOCartDetailTopping().getListToppingByIdCartDetail(cartDetail.getIdcartdetail());
+//            for (CartDetailTopping cartDetailTopping : cartDetailToppings) {
+//                BillDetailTopping billDetailTopping = new BillDetailTopping(billDetail,cartDetailTopping.getProduct(),cartDetailTopping.getTopping());
+//                new DAOBillDetailTopping().insert(billDetailTopping);
+//            }
+//
+//        }
     }
 }
