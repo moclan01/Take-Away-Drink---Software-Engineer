@@ -16,8 +16,8 @@ import java.util.*;
 public class Config {
     public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
     public static String vnp_ReturnUrl = "http://localhost:7750/Take_away_drink_war_exploded/vnpay_return.jsp";
-    public static String vnp_TmnCode = "B52ETLL3";
-    public static String secretKey = "VUTRLWGSRNEJQUPB7KVGE0EQGRR5GN5E";
+    public static String vnp_TmnCode = "ZRRBJM6Z";
+    public static String secretKey = "K9347ZQJE53JFJM4PI08QMWPYI4EXI8X";
     public static String vnp_ApiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
     public static String md5(String message) {

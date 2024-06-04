@@ -111,18 +111,18 @@ public class DAOCartDetail extends AbsDao<CartDetail>{
         rs = String.valueOf(total);
         return rs;
     }
-    public ArrayList<Integer> returnArrayNum(ArrayList<String> arrStr) {
+    public ArrayList<Integer> returnArrayNum(ArrayList<String> arrStr,int number) {
         ArrayList<Integer> arrNum = new ArrayList<>();
         for (String str : arrStr) {
-            int num = removeString(str);
+            int num = removeString(str,number);
             arrNum.add(num);
         }
         return arrNum;
 
     }
-    public int removeString(String str) {
+    public int removeString(String str,int number) {
         int rs;
-        String newStr = str.substring(6);
+        String newStr = str.substring(number);
         rs = Integer.parseInt(newStr);
         return rs;
     }

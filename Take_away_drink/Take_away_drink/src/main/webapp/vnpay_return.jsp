@@ -4,7 +4,7 @@
 <%@ page import="java.net.URLEncoder" %>
 <%@ page import="java.nio.charset.StandardCharsets" %>
 <%@ page import="controller.Config" %>
-<%@ page import="model.Account" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: ADMIN
   Date: 5/30/2024
@@ -16,6 +16,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.io.IOException" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="model.*" %>
+<%@ page import="DB.*" %>
 <html>
 <head>
     <meta charset="utf-8">
@@ -72,6 +76,7 @@
 </style>
 
 <body>
+<jsp:include page="component/header.jsp"></jsp:include>
 <%
     //Begin process return from VNPAY
     Map fields = new HashMap();
@@ -91,6 +96,19 @@
         fields.remove("vnp_SecureHash");
     }
     String signValue = Config.hashAllFields(fields);
+
+    DAOBill daoBill = new DAOBill();
+    String idBill = daoBill.newIdBill(daoBill.getAllIdBill());
+    String price = request.getParameter("vnp_Amount");
+    int priceNumber = Integer.parseInt(price);
+    String fullName = (String) session.getAttribute("fullName");
+    String phone = (String) session.getAttribute("phone");
+    String address = (String) session.getAttribute("address");
+    int phonenNumber = Integer.parseInt(phone);
+    Cart cart = (Cart) session.getAttribute("cart");
+
+
+
 %>
 <!--Begin display -->
 <div class="container">
@@ -129,7 +147,7 @@
                 %>
 
                 <%
-                    Account acc = (Account) session.getAttribute("account");
+                    Account acc = (Account) session.getAttribute("user");
                     if (acc != null) {
                 %>
                 <%
@@ -143,16 +161,38 @@
                 <%
                     if ("00".equals(request.getParameter("vnp_TransactionStatus"))) {
                 %>
+                <%
+
+                    DAOCartDetailTopping daoCartDetailTopping = new DAOCartDetailTopping();
+                    DAOCartDetail daoCartDetail = new DAOCartDetail();
+
+                    List<CartDetail> cartDetails = new DAOCartDetail().getListProductByUsername(cart.getMaOrder());
+                    Bill bill = new Bill(idBill, acc, null, priceNumber, fullName, phonenNumber,address);
+                    daoBill.insert(bill);
+                    for (CartDetail cartDetail : cartDetails) {
+                        BillDetail billDetail = new BillDetail(new DAOBillDetail().newIdBill(new DAOBillDetail().getAllIdBillDetail()), bill, cartDetail.getItem(), cartDetail.getSize(), cartDetail.getQuantity(),cartDetail.getPrice());
+                        new DAOBillDetail().insert(billDetail);
+                        List<CartDetailTopping> cartDetailToppings = new DAOCartDetailTopping().getListToppingByIdCartDetail(cartDetail.getIdcartdetail());
+                        for (CartDetailTopping cartDetailTopping : cartDetailToppings) {
+                            BillDetailTopping billDetailTopping = new BillDetailTopping(billDetail,cartDetailTopping.getProduct(),cartDetailTopping.getTopping());
+                            new DAOBillDetailTopping().insert(billDetailTopping);
+                        }
+                        daoCartDetailTopping.deleteToppingByIdCartDetail(cartDetail.getIdcartdetail());
+                        daoCartDetail.deleteByIdCartDetail(cartDetail.getIdcartdetail());
+                    }
+
+
+                %>
                 <%= "Success<br>" %>
                 <%
                 } else {
                 %>
-                <%= "Transaction Failed<br>" %>
+                <%= "Fail<br>" %>
                 <%
                     }
                 } else {
                 %>
-                <%= "Invalid Secure Hash<br>" %>
+
                 <%
                     }
                 %>
@@ -164,5 +204,7 @@
         <p>&copy; VNPAY 2020</p>
     </footer>
 </div>
+<%@include file="component/footer.jsp" %>
+
 </body>
 </html>
