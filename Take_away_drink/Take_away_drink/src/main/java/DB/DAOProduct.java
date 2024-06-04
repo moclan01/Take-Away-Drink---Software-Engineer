@@ -11,9 +11,35 @@ import java.util.List;
 public class DAOProduct extends AbsDao<Product>{
     @Override
     public boolean insert(Product product) throws SQLException {
-        return false;
+        try {
+            JDBIConnector.getJdbi().useHandle(handle -> {
+                handle.createUpdate("insert into product(idproduct,idtype,name,price,`describe`,srcIMG) values(?,?,?,?,?,?)")
+                        .bind(0, product.getIdproduct())
+                        .bind(1, product.getType().getidtype())
+                        .bind(2, product.getName())
+                        .bind(3, product.getPrice())
+                        .bind(4, product.getDescribe())
+                        .bind(5, product.getSrcIMG())
+                        .execute();
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
     }
 
+    public boolean deleteByIdProduct(String idproduct){
+        try {
+            JDBIConnector.getJdbi().useHandle(handle -> {
+                handle.createUpdate("delete from product where idproduct = ?")
+                        .bind(0, idproduct)
+                        .execute();
+            });
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return true;
+    }
     @Override
     public boolean delete(Product product) {
         return false;
@@ -108,6 +134,7 @@ public class DAOProduct extends AbsDao<Product>{
             return products;
         }
     }
+
     public static void main(String[] args) throws SQLException {
 
         Product arr = new DAOProduct().getProductByID("product1");

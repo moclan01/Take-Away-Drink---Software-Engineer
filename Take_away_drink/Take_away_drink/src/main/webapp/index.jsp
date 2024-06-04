@@ -34,8 +34,8 @@
 
 <div class="card-car">
     <div class="picture">
-        <img src="//bizweb.dktcdn.net/100/350/449/themes/894786/assets/slider_1.jpg?1676262438991"
-             style="width: 100%; margin-bottom: 10px">
+        <img  src="images/imgIndex/img_index1.png"
+             style="width: 60%; margin-bottom: 10px;height: 500px; margin-left: 20%">
     </div>
     <div class="container">
 
@@ -168,57 +168,24 @@
                     <div class="row-detail">
                         <div class="row-title">
                             <h2 class="h2">
-                                <span>Trao đổi với chúng tôi</span>
+                                <span>Đôi lời của chúng tôi</span>
                             </h2>
                         </div>
                         <div class="des_sync">
                             <p>
-                                Với phương châm: “Đồng hành cùng lớn mạnh” và với mức giá dịch
-                                vụ cạnh tranh, chúng tôi tin tưởng và rất hận hạnh được trở
-                                thành đối tác mới và lâu dài của Quý khách. Dàn xe đời mới,
-                                chất lượng cao của các hãng xe có thương hiệu toàn cầu chắc
-                                chắn sẽ làm hài lòng Quý khách hàng <br> Chúng tôi chuyên
-                                phục vụ cho các nhu cầu mua xe như tư vấn chọn lựa dựa trên đặc
-                                điểm cá nhân và nhu cầu sử dụng của khách hàng, cung cấp thông
-                                tin chi tiết về các tính năng kỹ thuật, an toàn và hiệu suất
-                                của xe. Đồng thời, chúng tôi cam kết đem đến trải nghiệm mua xe
-                                thoải mái và tin cậy bằng cách hỗ trợ trong quá trình kiểm tra
-                                chất lượng xe và thương lượng giá để đảm bảo sự hài lòng tuyệt
-                                đối cho khách hàng.
+                                Luôn tâm huyết với việc khai thác nguồn nông sản Việt Nam để tạo ra những ly thức uống tươi ngon,
+                                an toàn và giàu giá trị dinh dưỡng.
+                                Mang trong mình lòng đam mê và khát vọng xây dựng một thương hiệu trà sữa thuần Việt, mang đậm hương vị quê hương.
+                               Xuu Tea tin rằng thưởng thức một ly trà sữa được pha chế từ trà Mộc Châu, trân châu từ sắn dây Nghệ An hay mứt dâu tằm từ Đà Lạt sẽ là những trải nghiệm hoàn toàn khác biệt và tuyệt vời nhất cho những khách hàng của mình.
                             </p>
                         </div>
-                        <a class="btn_main" href="Contact.jsp" title="Trao đổi ngay">Trao đổi
-                            ngay</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </section>
-    <section class="section-2">
-        <section class="section_band">
-            <div class="container">
-                <div class="wrap_brand">
-                    <div class="img-car">
-                        <ul class="img-car-detail">
-                            <%--								<li class="img-car-items"><img --%>
-                            <%--									src="img/logo/logoBMW.jpg"--%>
-                            <%--									alt="" width="240" height="125"></li>--%>
-                            <%--								<li class="img-car-items" ><img--%>
-                            <%--									src="img/logo/logoHyndai.jpg" --%>
-                            <%--									alt="" width="150" height="120"></li>--%>
-                            <%--								<li class="img-car-items"><img--%>
-                            <%--									src="img/logo/logoMer.jpg"--%>
-                            <%--									alt="" width="200" height="120"></li>--%>
-                            <%--								<li class="img-car-items"><img--%>
-                            <%--									src="img/logo/logoFord.jpg"--%>
-                            <%--									alt="" width="200" height="120"></li>--%>
 
-                        </ul>
                     </div>
                 </div>
             </div>
         </section>
     </section>
+
     <div id="myModal" class="modal">
 
         <!-- Modal content -->
@@ -304,7 +271,6 @@
             }
         });
 
-        document.getElementById("result").innerHTML = "Selected gender: " + selectedSize;
     }
     function increasement(idproduct) {
 

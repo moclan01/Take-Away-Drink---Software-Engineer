@@ -44,9 +44,9 @@ public class AddPopupController extends HttpServlet {
                     +"</div>"
                     + "<div class=\"describe-product\">"+product.getDescribe()+"\r\n"
                     +"<div class=\"quantity-product\">"
-                    +"<button onclick=\"decreasement('"+product.getIdproduct()+"')\"> </button>"
+                    +"<button onclick=\"decreasement('"+product.getIdproduct()+"')\"> -</button>"
                     +"<div class=\"detail-quantity\">1</div>"
-                    +"<button onclick=\"increasement('"+product.getIdproduct()+"')\"></button>"
+                    +"<button onclick=\"increasement('"+product.getIdproduct()+"')\">+</button>"
                     +"</div>"
                     +"</div>"
                     +"</div>"
@@ -88,7 +88,7 @@ public class AddPopupController extends HttpServlet {
 
             out.print(
                     "</form>"
-                            +"<button onclick = \"addCartController('" + product.getIdproduct()+ "')\"> </button>"
+                            +"<button onclick = \"addCartController('" + product.getIdproduct()+ "')\">Add </button>"
                            + "</div>"
                             +"</div>"
                             +"</div>");

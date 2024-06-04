@@ -14,8 +14,7 @@
 	<nav class="navbar navbar-expand-lg bg-light">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="index.jsp"> <img
-				src="https://bizweb.dktcdn.net/100/350/449/themes/894786/assets/logo.png?1676262438991"
-				alt="Bootstrap" width="150" height="50">
+				src="images/imgIndex/logo2.png"	 width="150" height="100">
 			</a>
 		
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -37,8 +36,7 @@
 						</c:forEach>
 						
 						</ul></li>
-					<li class="nav-item"><a class="nav-link" href="Contact.jsp">Liên hệ</a>
-			
+
 					</li>
 				</ul>
 				<form class="d-flex" role="search" style="position: relative;display: block;float: right;">
@@ -61,11 +59,11 @@
 							class="nav-link dropdown-toggle" href="#" role="button"
 							data-bs-toggle="dropdown" aria-expanded="false"> ${user.username}</a>
 							<ul class="dropdown-menu">
-<%--									<c:set var="role" value="${user.role}" />--%>
-<%--									<c:if test="${role == 'admin' }">--%>
-<%--								<li><a class="dropdown-item" href="admin" class="cart" id="cart">admin</a></li>--%>
-<%--								<li><hr class="dropdown-divider"></li>--%>
-<%--									</c:if>--%>
+									<c:set var="role" value="${user.role}" />
+									<c:if test="${role == 'admin' }">
+								<li><a class="dropdown-item" href="admin" class="cart" id="cart">admin</a></li>
+								<li><hr class="dropdown-divider"></li>
+									</c:if>
 								<li><a class="dropdown-item" href="MKh?username=${user.username}" class="cart" id="cart">Giỏ hàng</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="DestroySession">Thoát tài khoản</a></li>

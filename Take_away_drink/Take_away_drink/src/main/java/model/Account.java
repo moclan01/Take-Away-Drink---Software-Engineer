@@ -6,14 +6,16 @@ public class Account implements Serializable {
     private String username;
     private String email;
     private String password;
+    private String role;
 
     public Account(){
 
     }
-    public Account(String username, String email, String password) {
+    public Account(String username, String email, String password, String role) {
         this.username = username;
         this.email = email;
-        this.password  =password;
+        this.password = password;
+        this.role = role;
     }
     public String getEmail() {
         return email;
@@ -39,9 +41,17 @@ public class Account implements Serializable {
         this.username = username;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
-        return username+","+email+","+password;
+        return this.username + " " + this.email + " " + this.password + " " + this.role;
     }
 }
 

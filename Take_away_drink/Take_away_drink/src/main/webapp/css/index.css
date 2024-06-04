@@ -90,14 +90,14 @@ a {
 
 .section_sync:before {
 	content: "";
-	width: 510px;
+	width: 710px;
 	height: 315px;
-	background-image: url(//bizweb.dktcdn.net/100/350/449/themes/894786/assets/car_model.jpg?1665391630894);
+	background-image: url(https://png.pngtree.com/png-vector/20230414/ourmid/pngtree-pearl-milk-tea-cute-cartoon-illustration-png-image_6696548.png);
 	background-repeat: no-repeat;
 	background-position: left top;
 	background-size: contain;
 	position: absolute;
-	margin-left: 100px;
+	margin-left: 200px;
 	left: 0;
 }
 

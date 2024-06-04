@@ -19,7 +19,19 @@
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link href="https://pay.vnpay.vn/lib/vnpay/vnpay.css" rel="stylesheet" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+    <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js"
+            integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT"
+            crossorigin="anonymous"></script>
 
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <style>
     body {
@@ -106,6 +118,8 @@
 
 </style>
 <body>
+
+<a href="MKh?username=${user.username}" ><i class="fa-solid fa-arrow-left"></i>Back</a>
 <div id="container">
 
 
@@ -120,7 +134,7 @@
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label"><i class="fa-solid fa-phone"></i>
-            </label> <input placeholder="Số điện thoại" type="text" class="form-control"
+            </label> <input placeholder="Số điện thoại" type="number" class="form-control"
                             id="phone" name="phone" required="required" >
         </div>
         <div class="mb-3">

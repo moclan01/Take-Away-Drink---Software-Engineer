@@ -192,7 +192,6 @@
 			}
 		});
 
-		document.getElementById("result").innerHTML = "Selected gender: " + selectedSize;
 	}
 	function increasement(idproduct) {
 		test = true;
