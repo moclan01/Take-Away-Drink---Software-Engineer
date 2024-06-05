@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import model.Account;
 import model.Product;
 import model.Type;
 
@@ -68,7 +69,6 @@ public class AdminController extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html; charset=UTF-8");
 
-        String idproduct = request.getParameter("idproduct");
         String name = request.getParameter("name");
         String price = request.getParameter("price");
         int priceInt = Integer.parseInt(price);
@@ -91,21 +91,15 @@ public class AdminController extends HttpServlet {
 
         // part.write(UPLOAD_DRRECTORY + File.separator + fileName);
         part.write(realPath + File.separator + fileName);
-        Product sanPham = new Product();
+
        DAOProduct sanPhamDAO = new DAOProduct();
 
         DAOType daoType = new DAOType();
       Type type =  daoType.getTypeByID(typeStr);
         System.out.println(typeStr);
-        sanPham.setIdproduct(idproduct);
-        sanPham.setName(name);
-        sanPham.setPrice(priceInt);
-        sanPham.setDescribe(describe);
 
-        sanPham.setSrcIMG(fileName);
-        sanPham.setType(type);
-        System.out.println(type);
 
+        Product sanPham = new Product("",type,name, priceInt, describe, fileName);
         sanPhamDAO.insert(sanPham);
         response.sendRedirect("admin?hanhDong=ADMIN");
     }
@@ -140,7 +134,14 @@ public class AdminController extends HttpServlet {
         List<Product> listAmin = sanPhamDAO.selectAll();
 
         session.setAttribute("listP", listAmin);
-        String url = "/admin.jsp";
+        Account acc = (Account) session.getAttribute("user");
+        String url ="";
+        if(acc.getRole().equalsIgnoreCase("admin")){
+            url = "/admin.jsp";
+        }else {
+            url = "/403-error.jsp";
+        }
+
         request.getRequestDispatcher(url).forward(request, response);
 
     }

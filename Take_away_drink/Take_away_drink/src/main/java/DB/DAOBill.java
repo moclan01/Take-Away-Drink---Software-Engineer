@@ -1,11 +1,11 @@
 package DB;
 
-import model.Account;
-import model.Bill;
+import model.*;
+import org.jdbi.v3.core.Handle;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DAOBill extends AbsDao<Bill>{
@@ -58,7 +58,51 @@ public class DAOBill extends AbsDao<Bill>{
         rs = "bill"+number;
         return rs;
     }
-    public static void main(String[] args) throws SQLException {
+    public Bill getBillByID(String idbill) throws SQLException {
+        Bill bill =null;
+        try (Handle handle = JDBIConnector.getJdbi().open()) {
+            String sql = "SELECT * FROM bills WHERE idbill = ?";
+            bill = handle.createQuery(sql)
+                    .bind(0, idbill)
+                    .mapToBean(Bill.class)
+                    .findFirst()
+                    .orElse(null);
+            return bill;
+        }
+    }
+    public List<Bill> getListBillByUserName(String username){
+        List<Bill> billList = new ArrayList<>();
+        try {
+            Connection conn = JDBCConnector.getConnection();
+            String sql = "SELECT * FROM bills WHERE username = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setObject(1,username);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String idbill = rs.getString("idbill");
+                String userName = rs.getString("username");
+                Timestamp date = rs.getTimestamp("date");
+                int price = rs.getInt("totalprice");
+                Bill bill = new Bill();
+                bill.setIdbill(idbill);
+                bill.setTotalprice(price);
+                bill.setDate(date);
 
+                billList.add(bill);
+            }
+            JDBCConnector.closeConnection(conn, stmt, rs);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return billList;
+    }
+    public static void main(String[] args) throws SQLException {
+        List<Bill> bills = new  DAOBill().getListBillByUserName("admin1");
+        List<BillDetail> billDetails = new ArrayList<>();
+        for (Bill bill : bills) {
+            List<BillDetail> billDetails1 = new DAOBillDetail().getListBillDetailByIdBill(bill.getIdbill());
+            billDetails.addAll(billDetails1);
+        }
+        System.out.println(billDetails);
     }
 }

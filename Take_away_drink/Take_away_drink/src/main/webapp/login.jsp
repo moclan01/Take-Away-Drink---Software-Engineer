@@ -50,7 +50,8 @@
                    placeholder="Mật khẩu" name="password"> <label for="password">Mật khẩu</label>
         </div>
         <button class="w-100 btn btn-lg btn-primary" type="submit">Đăng nhập</button>
-        <a href="sign_up.jsp" style="text-decoration: none;">Đăng ký tài khoản mới</a>
+        <a href="sign_up.jsp" style="text-decoration: none;">Đăng ký tài khoản mới</a> </br>
+        <a href="index.jsp" style="text-decoration: none;">Trở về trang chủ</a>
         </br>
     </form>
 </main>
