@@ -2,8 +2,7 @@ package DB;
 
 import model.*;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +54,34 @@ public class DAOBillDetail extends AbsDao<BillDetail> {
         int number = new DAOCartDetail().getNumRandom(arrNum);
         rs = "billdt"+number;
         return rs;
+    }
+    public List<BillDetail> getListBillDetailByIdBill(String idBill){
+        List<BillDetail> billDetails = new ArrayList<>();
+        try {
+            Connection conn = JDBCConnector.getConnection();
+            String sql = "SELECT * FROM bill_details WHERE idbill = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setObject(1,idBill);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String idbill= rs.getString("idbill");
+                String idbilldetail = rs.getString("idbilldetail");
+                String idProduct = rs.getString("idproduct");
+                String idSize = rs.getString("idsize");
+                int quantity = rs.getInt("quantity");
+                int price = rs.getInt("price");
+                Bill bill = new DAOBill().getBillByID(idbill);
+                Product product = new DAOProduct().getProductByID(idProduct);
+                Size size = new DAOSize().getSizeByID(idSize);
+               BillDetail billDetail = new BillDetail(idbilldetail,bill,product,size,quantity,price);
+
+                billDetails.add(billDetail);
+            }
+            JDBCConnector.closeConnection(conn, stmt, rs);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return billDetails;
     }
 
 }

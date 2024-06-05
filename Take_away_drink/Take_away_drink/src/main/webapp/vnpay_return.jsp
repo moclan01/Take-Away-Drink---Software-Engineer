@@ -204,7 +204,6 @@
         <p>&copy; VNPAY 2020</p>
     </footer>
 </div>
-<%@include file="component/footer.jsp" %>
 
 </body>
 </html>

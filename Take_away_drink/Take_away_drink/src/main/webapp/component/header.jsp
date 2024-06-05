@@ -65,6 +65,7 @@
 								<li><hr class="dropdown-divider"></li>
 									</c:if>
 								<li><a class="dropdown-item" href="MKh?username=${user.username}" class="cart" id="cart">Giỏ hàng</a></li>
+								<li><a class="dropdown-item" href="BillController?username=${user.username}" class="cart" id="cart">Lịch sử mua hàng</a></li>
 								<li><hr class="dropdown-divider"></li>
 								<li><a class="dropdown-item" href="DestroySession">Thoát tài khoản</a></li>
 							</ul></li>

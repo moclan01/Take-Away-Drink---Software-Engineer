@@ -1,5 +1,8 @@
 package model;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 public class BillDetail {
     private String idbilldetail;
     private Bill bill;
@@ -64,5 +67,26 @@ public class BillDetail {
 
     public void setSize(Size size) {
         this.size = size;
+    }
+
+    public Timestamp getDate(){
+        return bill.getDate();
+    }
+    public String getNameProduct(){
+        return product.getName();
+    }
+    public String getNameSize(){
+        return size.getNamesize();
+    }
+    @Override
+    public String toString() {
+        return "BillDetail{" +
+                "bill=" + bill +
+                ", idbilldetail='" + idbilldetail + '\'' +
+                ", product=" + getNameProduct() +
+                ", size=" + size +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                '}';
     }
 }

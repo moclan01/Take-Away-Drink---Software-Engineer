@@ -79,4 +79,9 @@ public class Bill {
     public void setTotalprice(int totalprice) {
         this.totalprice = totalprice;
     }
+
+    @Override
+    public String toString() {
+        return this.idbill+", "+this.totalprice+", "+this.name+", "+this.phone+", "+this.address+", "+this.date;
+    }
 }
